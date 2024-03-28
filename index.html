@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta Cambios</title>
+    <style>
+        /* Estilo para ocultar el formulario de registro */
+        #registroForm {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    
+    <h2>Registrar Cambios</h2>
+    <!-- Botón para abrir el formulario de registro -->
+    <button type="button" onclick="mostrarFormularioRegistro()">Registrar</button>
+
+    <!-- Formulario de registro oculto -->
+    <form id="registroForm" style="display: none;" action="registro.php" method="POST">
+      
+        Nombre: <input type="text" name="nombre"><br>
+        Apellido: <input type="text" name="apellido"><br>
+        Teléfono: <input type="text" name="telefono"><br>
+        Isla: 
+        <select name="isla">
+            <option value="HFC">HFC</option>
+            <option value="FLOW">FLOW</option>
+            <option value="CATTV">CATTV</option>
+            <!-- Agrega más opciones según sea necesario -->
+        </select><br>
+        Turno: 
+        <select name="turno">
+            <option value="tarde">Tarde</option>
+            <option value="mañana">Mañana</option>
+            <option value="noche">Noche</option>
+            <!-- Agrega más opciones según sea necesario -->
+        </select><br>
+        <button type="submit">Registrar Cambio</button>
+    </form>
+
+    <h2>Buscar Cambios</h2>
+    <!-- Formulario para buscar cambios -->
+    <form id="searchForm" action="script.php" method="POST">
+        <label for="direccion1">Isla:</label>
+        <select id="direccion1" name="direccion1">
+            <option value="HFC">HFC</option>
+            <option value="FLOW">FLOW</option>
+            <option value="CATTV">CATTV</option>
+            <!-- Agrega más opciones según sea necesario -->
+        </select>
+
+        <label for="direccion2">Turno:</label>
+        <select id="direccion2" name="direccion2">
+            <option value="mañana">Mañana</option>
+            <option value="tarde">Tarde</option>
+            <option value="noche">Noche</option>
+            <!-- Agrega más opciones según sea necesario -->
+        </select>
+
+        <button type="button" onclick="buscarCambios()">Buscar</button>
+    </form>
+
+    <!-- Div para mostrar resultados de la búsqueda -->
+    <div id="resultados"></div>
+
+    <script>
+        function mostrarFormularioRegistro() {
+            // Mostrar el formulario de registro cambiando su estilo de display
+            document.getElementById("registroForm").style.display = "block";
+        }
+
+        function buscarCambios() {
+            var direccion1 = document.getElementById("direccion1").value;
+            var direccion2 = document.getElementById("direccion2").value;
+
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("resultados").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("POST", "script.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("direccion1=" + direccion1 + "&direccion2=" + direccion2);
+        }
+    </script>
+
+</body>
+</html>
